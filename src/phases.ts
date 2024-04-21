@@ -2227,8 +2227,15 @@ export class MovePhase extends BattlePhase {
       // Assume conditions affecting targets only apply to moves with a single target
       let success = this.move.getMove().applyConditions(this.pokemon, targets[0], this.move.getMove());
       let failedText = null;
-      if (success && this.scene.arena.isMoveWeatherCancelled(this.move.getMove()))
+      if (success && this.scene.arena.isMoveWeatherCancelled(this.move.getMove())){
         success = false;
+	if(this.scene.arena.weather.weatherType === HEAVY_RAIN){
+		failedText = "The Fire-type attack fizzled out in the heavy rain!";
+	}
+	else{
+		failedText = "The Water-type attack evaporated in the harsh sunlight!";
+	}
+      }
       else if (success && this.scene.arena.isMoveTerrainCancelled(this.pokemon, this.move.getMove())) {
         success = false;
         failedText = getTerrainBlockMessage(targets[0], this.scene.arena.terrain.terrainType);
